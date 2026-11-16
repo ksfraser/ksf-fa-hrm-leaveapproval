@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Ksfraser\FrontAccounting\HRM\LeaveApproval\App;
 
 use ksfraser\FrontAccounting\Common\App\AbstractAppShell;
-use ksfraser\FrontAccounting\Common\Menu\FAModuleMenu;
-use Ksfraser\FrontAccounting\HRM\LeaveApproval\Controller\LeaveApprovalTabController;
+use ksfraser\FrontAccounting\Common\App\TabRegistration;
 
 class LeaveApprovalAppShell extends AbstractAppShell
 {
@@ -14,17 +13,16 @@ class LeaveApprovalAppShell extends AbstractAppShell
     {
         parent::__construct('leaveapproval', 'index.php', 'view', 'leave_approvals');
 
-        $this->add_module(_("Leave Approval"));
-
-        $menu = new FAModuleMenu(
-            'modules/ksf_FA_HRM_LeaveApproval/index.php',
-            'view',
-            ''
-        );
-
-        $menu->addItem('leave_approvals', _("Leave Approvals"), MENU_INQUIRY)
-             ->registerWithApp($this, 'SA_LEAVEAPPROVAL_VIEW');
-
-        $this->add_extensions();
+        $this->registerTab(new TabRegistration(
+            'leave_approvals',
+            'Leave Approvals',
+            'SA_LEAVEAPPROVAL_VIEW',
+            null,
+            10,
+            0,
+            null,
+            null,
+            array()
+        ));
     }
 }

@@ -1,0 +1,13 @@
+{
+  "name": "ksf_FA_HRM_LeaveApproval",
+  "version": "1.0.0",
+  "description": "KSF FrontAccounting Module - HRM Leave Approval",
+  "main": "index.js",
+  "scripts": {
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "playwright": "^1.64.1"
+  }
+}

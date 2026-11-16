@@ -1,18 +1,12 @@
 <?php
-declare(strict_types=1);
 
-use Ksfraser\FrontAccounting\HRM\LeaveApproval\App\LeaveApprovalFrontController;
-use Ksfraser\FrontAccounting\HRM\LeaveApproval\App\LeaveApprovalAppShell;
+require_once __DIR__ . '/bootstrap.php';
 
 $path_to_root = '../..';
 
-if (file_exists(__DIR__ . '/bootstrap.php')) {
-    require_once __DIR__ . '/bootstrap.php';
-}
-
-$frontController = new LeaveApprovalFrontController(
-    new LeaveApprovalAppShell(),
-    'SA_LEAVEAPPROVAL_VIEW',
+$frontController = new \Ksfraser\FrontAccounting\HRM\LeaveApproval\App\LeaveApprovalFrontController(
+    new \Ksfraser\FrontAccounting\HRM\LeaveApproval\App\LeaveApprovalAppShell(),
+    'SA_HRM_LEAVEAPPROVAL_VIEW',
     $path_to_root
 );
 

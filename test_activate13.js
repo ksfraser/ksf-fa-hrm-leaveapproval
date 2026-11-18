@@ -7,7 +7,13 @@ const { chromium } = require('playwright');
   });
   const page = await browser.newPage();
   
-  await page.goto('http://localhost:8080/');
+  const jsErrors = [];
+  page.on('console', msg => {
+    if (msg.type() === 'error') jsErrors.push(msg.text());
+  });
+  
+  // Log in
+  await page.goto('http://localhost:8090/');
   await page.waitForSelector('input[name="user_name_entry_field"]', { timeout: 10000 });
   await page.fill('input[name="user_name_entry_field"]', 'opencode');
   await page.fill('input[name="password"]', 'opencode');
@@ -17,45 +23,29 @@ const { chromium } = require('playwright');
     page.click('input[type="submit"], button[type="submit"]'),
   ]);
   await page.waitForSelector('a:has-text("Logout")', { timeout: 15000 });
+  console.log("Logged in");
   
-  await page.goto('http://localhost:8080/admin/inst_module.php?extset=0', { waitUntil: 'networkidle' });
+  // Go to Extensions page
+  await page.goto('http://localhost:8090/admin/inst_module.php?extset=0', { waitUntil: 'networkidle' });
   await page.waitForTimeout(3000);
   
   const bodyText = await page.textContent('body');
   console.log("Contains ksf_FA_HRM_LeaveApproval:", bodyText.includes('ksf_FA_HRM_LeaveApproval'));
-  console.log("Contains 'Installed':", bodyText.includes('Installed'));
-  console.log("Contains 'None':", bodyText.includes('None'));
+  console.log("Contains ksf_FA_CRM_Marketing:", bodyText.includes('ksf_FA_CRM_Marketing'));
   
+  // Check checkboxes
   const checkboxes = page.locator('input[type="checkbox"]');
   const count = await checkboxes.count();
   console.log("Checkboxes:", count);
   
-  let checked = 0;
-  for (let i = 0; i < count; i++) {
+  // List all checkboxes
+  for (let i = 0; i < Math.min(count, 40); i++) {
     const cb = checkboxes.nth(i);
     const isChecked = await cb.isChecked();
-    if (!isChecked) {
-      await cb.check();
-      checked++;
-    }
+    const name = await cb.getAttribute('name');
+    const label = await cb.locator('..').textContent();
+    console.log(`  Checkbox ${i}: name=${name}, checked=${isChecked}, label=${label.trim().substring(0,50)}`);
   }
-  console.log("Checked", checked, "checkboxes");
-  
-  if (checked > 0) {
-    const refreshBtn = page.locator('input[name="Refresh"], button[name="Refresh"]');
-    const refreshCount = await refreshBtn.count();
-    console.log("Refresh buttons:", refreshCount);
-    if (refreshCount > 0) {
-      await refreshBtn.first().click({ force: true });
-      await page.waitForTimeout(5000);
-      console.log("Clicked Refresh");
-    }
-  }
-  
-  const bodyAfter = await page.textContent('body');
-  console.log("Contains 'incompatible':", bodyAfter.includes('incompatible'));
-  console.log("Contains 'Saved':", bodyAfter.includes('saved'));
-  console.log("Contains 'activated':", bodyAfter.toLowerCase().includes('activat'));
   
   await browser.close();
 })();

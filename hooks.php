@@ -8,11 +8,11 @@ require_once __DIR__ . '/includes/common.inc';
 require_once __DIR__ . '/includes/events.inc';
 use ksfraser\RelatedTo\DTO\RelatedRecordDto;
 define('SS_ksf_FA_HRM_LeaveApproval', 188 << 8);
-if (!defined('SA_LEAVEAPPROVAL_VIEW')) {
-    define('SA_LEAVEAPPROVAL_VIEW', SS_ksf_FA_HRM_LeaveApproval | 1);
-    define('SA_LEAVEAPPROVAL_MANAGE', SS_ksf_FA_HRM_LeaveApproval | 2);
-    define('SA_LEAVEAPPROVAL_APPROVE', SS_ksf_FA_HRM_LeaveApproval | 3);
-    define('SA_LEAVEAPPROVAL_ADMIN', SS_ksf_FA_HRM_LeaveApproval | 4);
+if (!defined('SA_HRM_LEAVEAPPROVAL_VIEW')) {
+    define('SA_HRM_LEAVEAPPROVAL_VIEW', SS_ksf_FA_HRM_LeaveApproval | 1);
+    define('SA_HRM_LEAVEAPPROVAL_MANAGE', SS_ksf_FA_HRM_LeaveApproval | 2);
+    define('SA_HRM_LEAVEAPPROVAL_APPROVE', SS_ksf_FA_HRM_LeaveApproval | 3);
+    define('SA_HRM_LEAVEAPPROVAL_ADMIN', SS_ksf_FA_HRM_LeaveApproval | 4);
 }
 class hooks_ksf_FA_HRM_LeaveApproval extends hooks {
     const RESPONDERS = array('RELATED_TO_FIELDS', 'LEAVEAPPROVAL_RESOLVE', 'LEAVEAPPROVAL_FIELDS', 'LEAVEAPPROVAL_LIST');
@@ -22,10 +22,10 @@ class hooks_ksf_FA_HRM_LeaveApproval extends hooks {
     function install_options($app) { }
     function install_access() {
         $security_sections[SS_ksf_FA_HRM_LeaveApproval] = _("Leave Approval");
-        $security_areas['SA_LEAVEAPPROVAL_VIEW'] = array(SA_LEAVEAPPROVAL_VIEW, _("View leave approvals"));
-        $security_areas['SA_LEAVEAPPROVAL_MANAGE'] = array(SA_LEAVEAPPROVAL_MANAGE, _("Manage leave approvals"));
-        $security_areas['SA_LEAVEAPPROVAL_APPROVE'] = array(SA_LEAVEAPPROVAL_APPROVE, _("Approve leave"));
-        $security_areas['SA_LEAVEAPPROVAL_ADMIN'] = array(SA_LEAVEAPPROVAL_ADMIN, _("Administer leave approval"));
+        $security_areas['SA_HRM_LEAVEAPPROVAL_VIEW'] = array(SA_HRM_LEAVEAPPROVAL_VIEW, _("View leave approvals"));
+        $security_areas['SA_HRM_LEAVEAPPROVAL_MANAGE'] = array(SA_HRM_LEAVEAPPROVAL_MANAGE, _("Manage leave approvals"));
+        $security_areas['SA_HRM_LEAVEAPPROVAL_APPROVE'] = array(SA_HRM_LEAVEAPPROVAL_APPROVE, _("Approve leave"));
+        $security_areas['SA_HRM_LEAVEAPPROVAL_ADMIN'] = array(SA_HRM_LEAVEAPPROVAL_ADMIN, _("Administer leave approval"));
         return array($security_areas, $security_sections);
     }
     function activate_extension($company, $check_only = true) {
@@ -42,10 +42,10 @@ class hooks_ksf_FA_HRM_LeaveApproval extends hooks {
     public function getModuleConstants(&$data, $opts = null) {
         $data['constants'] = array(
             'SS_ksf_FA_HRM_LeaveApproval' => SS_ksf_FA_HRM_LeaveApproval,
-            'SA_LEAVEAPPROVAL_VIEW' => SA_LEAVEAPPROVAL_VIEW,
-            'SA_LEAVEAPPROVAL_MANAGE' => SA_LEAVEAPPROVAL_MANAGE,
-            'SA_LEAVEAPPROVAL_APPROVE' => SA_LEAVEAPPROVAL_APPROVE,
-            'SA_LEAVEAPPROVAL_ADMIN' => SA_LEAVEAPPROVAL_ADMIN,
+            'SA_HRM_LEAVEAPPROVAL_VIEW' => SA_HRM_LEAVEAPPROVAL_VIEW,
+            'SA_HRM_LEAVEAPPROVAL_MANAGE' => SA_HRM_LEAVEAPPROVAL_MANAGE,
+            'SA_HRM_LEAVEAPPROVAL_APPROVE' => SA_HRM_LEAVEAPPROVAL_APPROVE,
+            'SA_HRM_LEAVEAPPROVAL_ADMIN' => SA_HRM_LEAVEAPPROVAL_ADMIN,
         );
         return true;
     }
